@@ -17,47 +17,8 @@ int isDigit(int t) {
     return (t >= '0' && t <= '9');
 }
 
-int main() {
-    char input[1024];
-    fgets(input, sizeof(input), stdin);
-
-    // izin suhu radiasi jam
-    int izin, radiasi, jam;
-    double suhu;
-
-    // panjang karakter di input
-    int len = strlen(input);
-
-    int temp = 0;
-    int s = 0;
-
-    // menyalin dan memisahkan input berupa char ke variabel
-    for(int i = 0; i < len; i++) {
-
-        // jika digit maka akan ditambah
-        if (isDigit(input[i])) {
-            temp = temp * 10 + (input[i] - '0');
-        }
-
-        // jika bukan digit (spasi) masukn
-        if (!isDigit(input[i]) || i == len - 1) {
-            if (s == 0) izin = temp;
-            if (s == 1) suhu = temp;
-            if (s == 2) radiasi = temp;
-            if (s == 3) jam = temp;
-
-            s++;
-            temp = 0;
-        }
-    }
-
-    // printf("%d\n", izin);
-    // printf("%lf\n", suhu);
-    // printf("%d\n", radiasi);
-    // printf("%d\n", jam);
-
-    // else if bertingkat dari soal
-    char output[20];
+// fungsi untuk kalkulasi hasil output
+void calc (char *output, int izin, int suhu, int radiasi, int jam) {
     if (radiasi >= 6) {
         strcpy(output, "TOLAK");
     }
@@ -82,6 +43,54 @@ int main() {
     else {
         strcpy(output, "TOLAK");
     }
+}
+
+// fungsi untuk separate input
+void separate(char *input, int *izin, int *suhu, int *radiasi, int *jam) {
+    // panjang karakter di input
+    int len = strlen(input);
+
+    int temp = 0;
+    int s = 0;
+
+    // menyalin dan memisahkan input berupa char ke variabel
+    for(int i = 0; i < len; i++) {
+
+        // jika digit maka akan ditambah
+        if (isDigit(input[i])) {
+            temp = temp * 10 + (input[i] - '0');
+        }
+
+        // jika bukan digit (spasi) masukn
+        if (!isDigit(input[i]) || i == len - 1) {
+            if (s == 0) *izin = temp;
+            if (s == 1) *suhu = temp;
+            if (s == 2) *radiasi = temp;
+            if (s == 3) *jam = temp;
+
+            s++;
+            temp = 0;
+        }
+    }
+}
+
+int main() {
+    char input[1024];
+    fgets(input, sizeof(input), stdin);
+
+    // izin suhu radiasi jam
+    int izin, radiasi, jam, suhu;
+
+    separate(input, &izin, &suhu, &radiasi, &jam);
+
+    // printf("%d\n", izin);
+    // printf("%lf\n", suhu);
+    // printf("%d\n", radiasi);
+    // printf("%d\n", jam);
+
+    // else if bertingkat dari soal
+    char output[20];
+    calc(output, izin, suhu, radiasi, jam);
 
     printf("%s", output);
 
