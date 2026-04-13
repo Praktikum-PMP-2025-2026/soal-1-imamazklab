@@ -50,7 +50,6 @@ int main() {
             temp = 0;
         }
     }
-    suhu /= 10;
 
     // printf("%d\n", izin);
     // printf("%lf\n", suhu);
